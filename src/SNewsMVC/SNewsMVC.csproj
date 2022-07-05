@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SNewsMVC.DataModel\SNewsMVC.DataModel.csproj" />
+    <ProjectReference Include="..\SNewsMVC.Services.Interfaces\SNewsMVC.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\SNewsMVC.Services\SNewsMVC.Services.csproj" />
+  </ItemGroup>
+
+</Project>
