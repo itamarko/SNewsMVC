@@ -27,6 +27,7 @@ namespace SNewsMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IAuthorService, AuthorService>();
             services.AddControllersWithViews();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());

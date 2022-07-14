@@ -1,0 +1,13 @@
+﻿@model SNewsMVC.Models.Category.CategoryViewModel
+
+<h2>@Model.Name (@Model.Id)</h2>
+<div>
+    <p>@Model.Description</p>
+</div>
+<div>
+    <p class="button">
+        <a class="btn btn-primary"
+           asp-controller="Category"
+           asp-action="Index">Sve kategorije</a>
+    </p>
+</div>

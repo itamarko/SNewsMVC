@@ -1,0 +1,13 @@
+﻿@model SNewsMVC.Models.Author.AuthorViewModel
+
+<h2>@Model.FirstName @Model.LastName (@Model.Id)</h2>
+<div>
+    <p>Autor/ka @Model.FirstName @Model.LastName je rođen-a @Model.BirthDate</p>
+</div>
+<div>
+    <p class="button">
+        <a class="btn btn-primary"
+           asp-controller="Author"
+           asp-action="Index">Svi autori</a>
+    </p>
+</div>

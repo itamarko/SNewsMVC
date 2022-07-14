@@ -1,41 +1,43 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using SNewsMVC.DataModel;
-using SNewsMVC.DataModel.Category;
+using SNewsMVC.DataModel.Author;
 using SNewsMVC.Resource;
 using SNewsMVC.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SNewsMVC.Services
 {
-    public class CategoryService : ICategoryService
+    public class AuthorService : IAuthorService
     {
-        private readonly HttpClient _categoryRestService;
+        private readonly HttpClient _authorRestService;
         private readonly IConfiguration _configuration;
 
-        public CategoryService(IConfiguration configuration)
+        public AuthorService(IConfiguration configuration)
         {
             _configuration = configuration;
-            _categoryRestService = new HttpClient();
-            _categoryRestService.BaseAddress = new Uri(_configuration.GetSection("ExternalServices").GetSection("SNewsAPI").Value);
+            _authorRestService = new HttpClient();
+            _authorRestService.BaseAddress = new Uri(_configuration.GetSection("ExternalServices").GetSection("SNewsAPI").Value);
         }
-        public async Task<CommandResponse<IEnumerable<Category>>> Get()
+
+        public async Task<CommandResponse<IEnumerable<Author>>> Get()
         {
-            var result = new CommandResponse<IEnumerable<Category>>();
+            var result = new CommandResponse<IEnumerable<Author>>();
 
             try
             {
-                var response = await _categoryRestService.GetAsync("Categories");
+                var response = await _authorRestService.GetAsync("Authors");
                 if (response.IsSuccessStatusCode)
                 {
                     // Read all of the response and deserialise it into an instace of Employee class
                     var content = await response.Content.ReadAsStringAsync();
 
-                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<IEnumerable<Category>>>(content);
+                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<IEnumerable<Author>>>(content);
                     if (loadedResponse.Success)
                     {
                         result.Data = loadedResponse.Data;
@@ -59,19 +61,19 @@ namespace SNewsMVC.Services
             return result;
         }
 
-        public async Task<CommandResponse<Category>> GetById(int id)
+        public async Task<CommandResponse<Author>> GetById(int id)
         {
-            var result = new CommandResponse<Category>();
+            var result = new CommandResponse<Author>();
             try
             {
-                string requestPath = $"Categories/{id}";
-                var response = await _categoryRestService.GetAsync(requestPath);
+                string requestPath = $"Authors/{id}";
+                var response = await _authorRestService.GetAsync(requestPath);
                 if (response.IsSuccessStatusCode)
                 {
                     // Read all of the response and deserialise it into an instace of Employee class
                     var content = await response.Content.ReadAsStringAsync();
 
-                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<Category>>(content);
+                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<Author>>(content);
                     if (loadedResponse.Success)
                     {
                         result.Data = loadedResponse.Data;
@@ -87,28 +89,28 @@ namespace SNewsMVC.Services
                     result.ErrorMessage = Resources.errErrorCallingSNewsAPI;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.ErrorMessage = ex.Message;
             }
             return result;
         }
 
-        public async Task<CommandResponse<Category>> Insert(InsertCategoryRequest category)
+        public async Task<CommandResponse<Author>> Insert(InsertAuthorRequest author)
         {
-            var result = new CommandResponse<Category>();
+            var result = new CommandResponse<Author>();
             try
             {
-                var json = JsonConvert.SerializeObject(category);
+                var json = JsonConvert.SerializeObject(author);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _categoryRestService.PostAsync("Categories", data);
+                var response = await _authorRestService.PostAsync("Authors", data);
                 if (response.IsSuccessStatusCode)
                 {
                     // Read all of the response and deserialise it into an instace of Employee class
                     var content = await response.Content.ReadAsStringAsync();
 
-                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<Category>>(content);
+                    var loadedResponse = JsonConvert.DeserializeObject<CommandResponseSNewsAPI<Author>>(content);
                     if (loadedResponse.Success)
                     {
                         result.Data = loadedResponse.Data;
